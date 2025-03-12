@@ -12,5 +12,9 @@ class Story(models.Model):
     image = models.ImageField(upload_to="media/",null=True,blank=True)
     created_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Story'
+        verbose_name_plural = 'Stories'  
+
     def __str__(self):
         return self.title
