@@ -1,19 +1,20 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework import permissions, status
+from rest_framework import permissions, status,viewsets
 from rest_framework.permissions import IsAuthenticated,AllowAny
-from rest_framework.decorators import permission_classes
 
 from rest_framework.response import Response
-from .models import Story
+from .models import Story, Category
 
-from apps.stories.serializerz import StorySerializer
+from apps.stories.serializerz import StorySerializer, CategorySerializer
+from drf_yasg.utils import swagger_auto_schema
 
 
 class StoryGetView(APIView):
 
     permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(operation_description="Retrieve a list of stories")
     def get(self, request, story_id=None):
         """
         Retrieve a list of stories or a single story if story_id is provided.
@@ -73,6 +74,8 @@ class StoryDeleteView(APIView):
             return Response({"detail": "Story not found."}, status=status.HTTP_404_NOT_FOUND)
         return Response({"detail": "Story deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
-# Create your views here.
 
-
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+        

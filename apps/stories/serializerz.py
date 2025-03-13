@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Story, Like, Comment
+from .models import Story, Like, Comment, Category
 
 class StorySerializer (serializers.ModelSerializer):
     class Meta:
@@ -27,6 +27,13 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ["id", "title", "content", "created_at"]
         read_only_fields = ['id', 'user', 'story', 'created_at']  # Auto-filled fields
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model  = Category
+        fields = ["name", "description", "created_at", "updated_at"]
 
 
 
